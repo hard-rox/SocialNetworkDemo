@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SocialNetDemo.Models.Post>
+
+@{
+    ViewBag.Title = "My posts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My posts</h2>
+
+<p>
+    @Html.ActionLink("Create New Post", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PostString)
+        </th>
+        <th></th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="width: 50%;" align="justify">
+            @Html.DisplayFor(modelItem => item.PostString)<br/><br/>
+            @item.Likes.Count Liked this.<br/>
+            @foreach (var comment in item.Comments)
+            {
+                <a href="~/Friend/FriendProfileView/@comment.ApplicationUserId">
+                    @comment.ApplicationUser.Name
+                </a>
+                <span style="display:inline-block; width: 25pt;"> Said </span>
+                @comment.CommentText <br/>    
+            }
+        </td>
+        <td></td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

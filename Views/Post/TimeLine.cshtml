@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SocialNetDemo.Models.Post>
+
+@{
+    ViewBag.Title = "Timeline";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<hr/>
+<table class="table">
+    @foreach (var item in Model) {
+        <tr>
+            <td style="width: 30%;" align="justify">
+                <a href="~/Friend/FriendProfileView/@item.ApplicationUserId" style="font-weight: bold">
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                </a><br/>
+
+                @Html.DisplayFor(modelItem => item.PostString)<br/>
+                <form action="~/Post/LikeComment">
+                    <button type="submit" class="btn btn-default btn-sm" id="likeBtn" name="likeBtn" value="@item.Id">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                    </button>
+                    <input type="text" class="btn-default btn-sm" id="commentText" name="commentText" placeholder="Write a Comment..." />
+                    <button type="submit" class="btn btn-default btn-sm" id="commentBtn" name="commentBtn" value="@item.Id">Comment</button><br/>
+                </form>
+                @item.Likes.Count Liked this.<br/>
+                
+                @foreach (var comment in item.Comments)
+                {
+                    <a href="~/Friend/FriendProfileView/@comment.ApplicationUserId">
+                        @comment.ApplicationUser.Name
+                    </a>
+                    <span style="display: inline-block; width: 25pt;"> Said </span>
+                    @comment.CommentText
+                    <br/>
+                }
+            </td>
+        </tr>
+    }
+</table>
